@@ -1,7 +1,8 @@
 Metadata-Version: 2.1
 Name: wagtail_ace_editor
-Version: 1.0.6
+Version: 1.0.7
 Summary: An application made for the Django Web Framework.
+Home-page: https://github.com/Nigel2392/wagtail_ace_editor
 Author: Nigel
 Author-email: nigel@goodadvice.it
 License: GPL-3.0-only
