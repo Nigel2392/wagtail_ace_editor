@@ -1,0 +1,51 @@
+.ace-editor-widget {
+
+}
+.ace-editor-widget > .ace-editor-preview-wrapper {
+    height: 250px;
+    max-height: 700px;
+    resize: vertical;
+    overflow: auto;
+    border: 1px solid var(--w-color-surface-menus);
+}
+
+.ace-editor-widget > .ace-editor-preview-wrapper > .ace-editor-widget-nomarkup {
+    font-family: monospace;
+    white-space: pre;
+    word-wrap: nowrap;
+    line-height: 1.1em;
+    margin: 0 0.25em;
+}
+.ace-editor-widget > .ace-editor-preview-wrapper > .ace-editor-widget-nomarkup > * {
+    margin: 0;
+}
+.ace-editor-widget > .ace-editor-preview-wrapper:not(:is(.ace-editor-widget-previewing)) {
+    display: none;
+}
+.ace-editor-widget > .ace-editor-preview-wrapper > .ace-editor-widget-preview-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.ace-editor-widget > .ace-editor-widget-wrapper {
+
+}
+
+.ace-editor-widget > .ace-editor-widget-wrapper > [ace-editor-input] {
+    display: none;
+}
+
+.ace-editor-widget > .ace-editor-widget-wrapper > .ace-editor-widget-preview-button {
+    margin-top: 0.5em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ace-editor-widget > .ace-editor-widget-wrapper > .ace_editor {
+    height: 300px;
+    width: 100%;
+}

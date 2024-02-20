@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="ace-editor-widget">
+
+    {% if widget.label %}
+    <label for="{{widget.attrs.id}}"><strong>{{widget.label}}:</strong></label>
+    {% endif %}
+
+    <div class="ace-editor-preview-wrapper" id="{{widget.attrs.id}}-preview-wrapper"></div>
+
+    <div id="{{widget.attrs.id}}-wrapper" class="ace-editor-widget-wrapper">
+        <textarea id="{{widget.attrs.id}}" name="{{widget.name|default:widget.attrs.id}}" ace-editor-input {% for k, v in widget.attrs.items %}{{k}}="{{v}}"{%endfor%}>{{widget.value|safe}}</textarea>
+        
+        <div id="{{widget.attrs.id}}-editor"></div>
+        
+        <div class="ace-editor-widget-preview-button">
+            <label for="{{widget.attrs.id}}-preview-text">{% translate "Preview:" %}</label>
+            <input type="checkbox" id="{{widget.attrs.id}}-preview-check">
+        </div>
+    </div>
+
+</div>
