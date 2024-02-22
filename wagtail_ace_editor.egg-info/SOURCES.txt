@@ -4,6 +4,17 @@ README.md
 pyproject.toml
 setup.cfg
 setup.py
+tests/__init__.py
+tests/testapp/__init__.py
+tests/testapp/manage.py
+tests/testapp/core/__init__.py
+tests/testapp/core/tests.py
+tests/testapp/core/migrations/__init__.py
+tests/testapp/testapp/__init__.py
+tests/testapp/testapp/asgi.py
+tests/testapp/testapp/settings.py
+tests/testapp/testapp/urls.py
+tests/testapp/testapp/wsgi.py
 wagtail_ace_editor/__init__.py
 wagtail_ace_editor/apps.py
 wagtail_ace_editor/blocks.py
