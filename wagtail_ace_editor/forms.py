@@ -15,29 +15,29 @@ class AceEditorValue(str):
         self.render_with_context = render_with_context
         return self
     
-    def get_context(self, value, parent_context=None):
-        if parent_context is None:
-            parent_context = {}
+    def get_context(self, context = None):
+        if context is None:
+            context = {}
         
         return {
             "self": self,
-            "value": value,
             "mode": self.mode,
             "theme": self.theme,
-            **parent_context
+            **context
         }
     
-    def render_as_block(self, value, context=None):
+    def render_as_block(self, context=None):
+        tpl = self
         if self.render_with_context:
             if context is None:
-                new_context = self.get_context(value)
+                new_context = self.get_context(context=context)
             else:
-                new_context = self.get_context(value, parent_context=dict(context))
+                new_context = self.get_context(context=dict(context))
 
-            tpl = Template(value)
+            tpl = Template(tpl)
             return tpl.render(Context(new_context))
 
-        return mark_safe(value)
+        return mark_safe(tpl)
 
 
 class AceEditorField(forms.CharField):

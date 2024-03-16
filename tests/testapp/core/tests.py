@@ -57,25 +57,29 @@ class WidgetTestCase(TestCase):
 </p>""", p)
         
     def test_to_python(self):
+        original = "<p>test {{ with_context }}</p>"
         form = WidgetForm({
-            "test_field": "<p>test {{ without_context }}</p>",
+            "test_field": original,
         })
         self.assertTrue(form.is_valid())
         test_field = form.cleaned_data["test_field"]
-        rendered = test_field.render_as_block(test_field, {
+        rendered = test_field.render_as_block({
             "without_context": "context value",
         })
-        self.assertEqual(rendered, "<p>test {{ without_context }}</p>")
+        self.assertEqual(rendered, original)
+        self.assertEqual(str(test_field), original)
+
         
     def test_to_python_tpl_context(self):
+        original = "<p>test {{ with_context }}</p>"
         form = WithContextWidgetForm({
-            "test_field_tpl_context": "<p>test {{ with_context }}</p>",
+            "test_field_tpl_context": original,
         })
         self.assertTrue(form.is_valid())
         test_field = form.cleaned_data["test_field_tpl_context"]
-        rendered = test_field.render_as_block(test_field, {
+        rendered = test_field.render_as_block({
             "with_context": "context value",
         })
-
         self.assertEqual(rendered, "<p>test context value</p>")
+        self.assertEqual(str(test_field), original)
 
