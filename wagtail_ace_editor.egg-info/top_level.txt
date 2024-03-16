@@ -1,2 +1,0 @@
-tests
-wagtail_ace_editor
