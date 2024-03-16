@@ -35,7 +35,7 @@ class AceEditorWidget(widgets.Textarea):
         self.use_frame_preview      = use_frame_preview
         self.frame_css              = frame_css or [
             "wagtail_ace_editor/css/ace-editor-iframe.css"
-        ]
+        ] if use_frame_preview else []
         self.frame_js               = frame_js or []
         self.clean_html             = clean_html
         super().__init__(attrs=attrs)
