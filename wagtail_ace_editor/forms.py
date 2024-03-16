@@ -68,6 +68,13 @@ class AceEditorField(forms.CharField):
         )
     
     def to_python(self, value: Any | None) -> Any | None:
+
+        if value is None:
+            return None
+        
+        if isinstance(value, AceEditorValue):
+            return value
+
         return AceEditorValue(
             value,
             mode=self.mode,

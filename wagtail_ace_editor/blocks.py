@@ -44,6 +44,13 @@ class AceEditorBlock(blocks.FieldBlock):
         return AceEditorField(**self.field_options)
     
     def to_python(self, value):
+
+        if value is None:
+            return None
+        
+        if isinstance(value, AceEditorValue):
+            return value
+
         return AceEditorValue(
             value,
             mode=self.field_options["mode"],
