@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: wagtail_ace_editor
+Name: wagtail-ace-editor
 Version: 1.0.7
 Summary: An application made for the Django Web Framework.
 Home-page: https://github.com/Nigel2392/wagtail_ace_editor
@@ -22,8 +22,6 @@ Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: Django>=4.2
-Requires-Dist: Wagtail>=4.2
 
 wagtail_ace_editor
 ==================

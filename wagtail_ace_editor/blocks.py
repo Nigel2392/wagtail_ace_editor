@@ -2,9 +2,11 @@ from wagtail import blocks
 from django.utils.safestring import mark_safe
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from django.template import Template, Context
 
-from .forms import AceEditorField
+from .forms import (
+    AceEditorField,
+    AceEditorValue,
+)
 
 class AceEditorBlock(blocks.FieldBlock):
     def __init__(
@@ -41,16 +43,13 @@ class AceEditorBlock(blocks.FieldBlock):
     def field(self):
         return AceEditorField(**self.field_options)
     
-    def render(self, value, context=None):
-        if self.include_template_context:
-            if context is None:
-                new_context = self.get_context(value)
-            else:
-                new_context = self.get_context(value, parent_context=dict(context))
-
-            tpl = Template(value)
-            return tpl.render(Context(new_context))
-
-        return mark_safe(value)
-
+    def to_python(self, value):
+        return AceEditorValue(
+            value,
+            mode=self.field_options["mode"],
+            theme=self.field_options["theme"],
+            clean_html=self.field_options["clean_html"],
+            render_with_context=self.include_template_context,
+        )
+    
 
