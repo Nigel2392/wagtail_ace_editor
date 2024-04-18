@@ -39,6 +39,10 @@ class AceEditorBlock(blocks.FieldBlock):
 
         super().__init__(**kwargs)
 
+    class Meta:
+        icon = "doc-full"
+        label = _("Ace Editor")
+
     @cached_property
     def field(self):
         return AceEditorField(**self.field_options)

@@ -1,7 +1,12 @@
 param (
-    [string]$CommitMessage = "Update to package"
+    [string]$CommitMessage = "Update to package",
+    [bool]$Tag = $false,
+    [string]$TagName = "0.0.0"
 )
 
+if ($TagName -ne "0.0.0") {
+    $Tag = $true
+}
 
 $ProjectName = "wagtail_ace_editor"
 
@@ -12,14 +17,20 @@ function IsNumeric ($Value) {
 
 Function GITHUB_Upload {
     param (
+        [parameter(Mandatory=$false)]
         [string]$Version
     )
 
     git add .
-    $gitVersion = "v${Version}"
-    git tag $gitVersion
-    git commit -m $CommitMessage
-    git push -u origin main --tags
+    if ($Tag) {
+        $gitVersion = "v${Version}"
+        git commit -m $CommitMessage
+        git tag $gitVersion
+        git push -u origin main --tags
+    } else {
+        git commit -m $CommitMessage
+        git push -u origin main
+    }
 }
 
 Function _NextVersionString {
@@ -92,11 +103,17 @@ function GITHUB_NextVersion {
     # Extract the version, increment it, and prepare the updated version string
     $version = "$(git tag -l --format='VERSION=%(refname:short)' | Sort-Object -Descending | Select-Object -First 1)" -split "=v", 2 | ForEach-Object { $_.Trim() } | Select-Object -Last 1
 
-    if ($version) {
+    if ($version -And $TagName -eq "0.0.0") {
         $newVersion = _NextVersionString -Version $version
         Write-Host "Next version (git): $newVersion"
         return $newVersion
     } else {
+        if ($TagName -ne "0.0.0") {
+            # $TagName = $version
+            # $TagName = _NextVersionString -Version $TagName
+            Write-Host "Next version (tag): $TagName"
+            return $TagName
+        }
         $newVersion = InitRepo -ConfigFile $ConfigFile
         Write-Host "Next version (init): $newVersion"
         return $newVersion
@@ -164,15 +181,18 @@ Function PYPI_Upload {
     )
 
     $distFile = _PYPI_DistName -Version $Version
-    py -m twine upload "./dist/${distFile}"
+    python3 -m twine upload "./dist/${distFile}"
 }
 
-
-$version = GITHUB_UpdateVersion # Increment the package version  (setup.cfg)
-GITHUB_Upload -Version $version # Upload the package             (twine upload dist/<LATEST>)
-PYPI_Build                      # Build the package              (python setup.py sdist)
-PYPI_Check -Version $version    # Check the package              (twine check dist/<LATEST>)
-PYPI_Upload -Version $version   # Upload the package             (twine upload dist/<LATEST>)
+if ($Tag) {
+    $version = GITHUB_UpdateVersion # Increment the package version  (setup.cfg)
+    GITHUB_Upload -Version $version # Upload the package             (git push)
+    PYPI_Build                      # Build the package              (python setup.py sdist)
+    PYPI_Check -Version $version    # Check the package              (twine check dist/<LATEST>)
+    PYPI_Upload -Version $version   # Upload the package             (twine upload dist/<LATEST>)
+} else {
+    GITHUB_Upload # Upload the package
+}
 
 
 
