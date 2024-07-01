@@ -1,3 +1,4 @@
+from typing import Any
 from django.forms import widgets
 from django.templatetags.static import static
 from .clean import (
@@ -28,16 +29,18 @@ def format_static_if_needed(value):
 class AceEditorWidget(widgets.Textarea):
     template_name = "wagtail_ace_editor/ace_editor.html"
 
-    def __init__(self, mode="ace/mode/django", theme="ace/theme/wagtail", use_frame_preview=True, frame_css=None, frame_js=None, clean_html=False, attrs=None):
-        attrs                       = attrs or {}
-        self.mode                   = mode
-        self.theme                  = theme
-        self.use_frame_preview      = use_frame_preview
-        self.frame_css              = frame_css or [
+    def __init__(self, mode="ace/mode/django", theme="ace/theme/wagtail", use_frame_preview=True, frame_css=None, frame_js=None, clean_html=False, disable_preview=False, preview_checkbox_checked=True, attrs=None):
+        attrs                         = attrs or {}
+        self.mode                     = mode
+        self.theme                    = theme
+        self.disable_preview          = True
+        self.preview_checkbox_checked = preview_checkbox_checked
+        self.use_frame_preview        = use_frame_preview and not disable_preview
+        self.frame_css                = frame_css or [
             "wagtail_ace_editor/css/ace-editor-iframe.css"
         ] if use_frame_preview else []
-        self.frame_js               = frame_js or []
-        self.clean_html             = clean_html
+        self.frame_js                 = frame_js or []
+        self.clean_html               = clean_html
         super().__init__(attrs=attrs)
 
     def format_value(self, value) -> str | None:
@@ -68,7 +71,13 @@ class AceEditorWidget(widgets.Textarea):
         attrs["data-ace-editor-use-frame-preview-value"] = self.use_frame_preview
         attrs["data-ace-editor-frame-css-value"] = json.dumps(self.build_frame_css())
         attrs["data-ace-editor-frame-js-value"] = json.dumps(self.build_frame_js())
+        attrs["data-ace-editor-preview-checkbox-checked-value"] = self.preview_checkbox_checked
         return attrs
+    
+    def get_context(self, name: str, value: Any, attrs: dict[str, Any] | None) -> dict[str, Any]:
+        return super().get_context(name, value, attrs) | {
+            "disable_preview": self.disable_preview,
+        }
     
     def build_frame_css(self):
         return format_static_if_needed(self.frame_css)

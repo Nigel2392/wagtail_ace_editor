@@ -111,6 +111,18 @@ If the path is relative, the `STATIC_URL` prefix will be appended to it.
 
 `frame_js: list[str]`
 
+### preview_checkbox_checked (default True)
+
+**When using ace/mode/(html or django), allows you to set the default state of the preview checkbox**
+
+`preview_checkbox_checked: bool`
+
+### disable_preview (default False)
+
+**Allows to disable the preview window** 
+
+`disable_preview: bool`
+
 ### clean_html (default false)
 
 **If you are using `ace/mode/html` or `ace/mode/django` we allow you to clean the HTML if the parameter is specified.**

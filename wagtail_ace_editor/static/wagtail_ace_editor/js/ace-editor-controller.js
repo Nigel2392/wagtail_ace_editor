@@ -13,11 +13,12 @@ function insertBaseURLWhenRelative (url) {
 
 class AceEditorController extends window.StimulusModule.Controller {
     static values = { 
-        mode:               {default: "ace/mode/django", type: String},
-        theme:              {default: "ace/theme/monokai", type: String},
-        useFramePreview:    {default: true, type: Boolean},
-        frameCss:           {default: [], type: Array},
-        frameJs:            {default: [], type: Array},
+        mode:                   {default: "ace/mode/django", type: String},
+        theme:                  {default: "ace/theme/monokai", type: String},
+        previewCheckboxChecked: {default: true, type: Boolean},
+        useFramePreview:        {default: true, type: Boolean},
+        frameCss:               {default: [], type: Array},
+        frameJs:                {default: [], type: Array},
     };
 
     connect() {
@@ -33,7 +34,7 @@ class AceEditorController extends window.StimulusModule.Controller {
             frameJs = this.frameJsValue.map(insertBaseURLWhenRelative);
         }
 
-        console.log('AceEditorController connected', this.modeValue, this.themeValue, this.useFramePreviewValue, frameCss, frameJs, this);
+        console.log('AceEditorController connected', this.modeValue, this.themeValue, this.useFramePreviewValue, frameCss, frameJs, this.previewCheckboxCheckedValue, this)
 
         this.editor = new AceEditorWidget(
             this.element.id,
@@ -42,7 +43,8 @@ class AceEditorController extends window.StimulusModule.Controller {
             this.themeValue,
             this.useFramePreviewValue,
             frameCss, 
-            frameJs
+            frameJs,
+            this.previewCheckboxCheckedValue,
         );
     }
 

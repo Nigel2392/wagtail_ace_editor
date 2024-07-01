@@ -5,7 +5,7 @@ let previewables = [
 
 
 class AceEditorWidget {
-    constructor(querySelector, value = null, mode="ace/mode/django", theme="ace/theme/monokai", useFramePreview=false, frameCss=null, frameJs=null) {
+    constructor(querySelector, value = null, mode="ace/mode/django", theme="ace/theme/monokai", useFramePreview=false, frameCss=null, frameJs=null, previewCheckboxChecked=true) {
         // Create the Ace Editor instance
         this.mode = mode;
         this.wrapper = document.querySelector(`#${querySelector}-wrapper`);
@@ -23,10 +23,10 @@ class AceEditorWidget {
         this.frameCss = frameCss;
         this.frameJs = frameJs;
 
+        this.editor.getSession().on('change', this.setPreviewText.bind(this));
         if (this.previewWrapper) {
-            this.editor.getSession().on('change', this.setPreviewText.bind(this));
             this.previewCheckbox.addEventListener('change', this._setPreviewing.bind(this));
-            this.previewCheckbox.checked = previewables.includes(this.mode);
+            this.previewCheckbox.checked = previewables.includes(this.mode) && previewCheckboxChecked;
             this._setPreviewing();
         }
 
@@ -34,6 +34,7 @@ class AceEditorWidget {
         if (value !== null) {
             this.editor.setValue(value);
         }
+        
         this.editor.clearSelection();
     }
 

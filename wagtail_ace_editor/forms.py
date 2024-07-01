@@ -42,14 +42,16 @@ class AceEditorValue(str):
 
 class AceEditorField(forms.CharField):
 
-    def __init__(self, mode="ace/mode/django", theme="ace/theme/wagtail", use_frame_preview=False, frame_css=None, frame_js=None, clean_html=False, include_template_context=False, *args, **kwargs):
+    def __init__(self, mode="ace/mode/django", theme="ace/theme/wagtail", use_frame_preview=False, frame_css=None, frame_js=None, clean_html=False, disable_preview=False, include_template_context=False, preview_checkbox_checked=True, *args, **kwargs):
         self.mode = mode
         self.theme = theme
         self.use_frame_preview = use_frame_preview
         self.frame_css = frame_css
         self.frame_js = frame_js
         self.clean_html = clean_html
+        self.disable_preview = disable_preview
         self.include_template_context = include_template_context
+        self.preview_checkbox_checked = preview_checkbox_checked
         self._widget = None
         super().__init__(*args, **kwargs)
 
@@ -64,7 +66,9 @@ class AceEditorField(forms.CharField):
             use_frame_preview=self.use_frame_preview,
             frame_css=self.frame_css,
             frame_js=self.frame_js,
-            clean_html=self.clean_html
+            clean_html=self.clean_html,
+            disable_preview=self.disable_preview,
+            preview_checkbox_checked=self.preview_checkbox_checked
         )
     
     def to_python(self, value: Any | None) -> Any | None:

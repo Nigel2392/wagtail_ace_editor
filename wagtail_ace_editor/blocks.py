@@ -18,6 +18,8 @@ class AceEditorBlock(blocks.FieldBlock):
         frame_css: list[str]            = None,
         frame_js: list[str]             = None,
         clean_html: bool                = False,
+        disable_preview: bool           = False,
+        preview_checkbox_checked: bool  = False,
         required: bool                  = True,
         help_text: str                  = None,
         validators=(),
@@ -31,6 +33,8 @@ class AceEditorBlock(blocks.FieldBlock):
             "theme": theme,
             "clean_html": clean_html,
             "use_frame_preview": use_frame_preview,
+            "preview_checkbox_checked": preview_checkbox_checked,
+            "disable_preview": disable_preview,
             "frame_css": frame_css or [],
             "frame_js": frame_js or [],
         }
