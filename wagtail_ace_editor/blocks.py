@@ -45,7 +45,6 @@ class AceEditorBlock(blocks.FieldBlock):
 
     class Meta:
         icon = "doc-full"
-        label = _("Ace Editor")
 
     @cached_property
     def field(self):
